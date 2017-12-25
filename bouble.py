@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import logging
 import numpy as np
+import timeit
 
 
 logging.basicConfig(level=logging.WARNING)
@@ -44,9 +45,36 @@ class sorter():
 
 		return array
 
+	def insertion(array, order = 1, plot = False):
+		i = 1
+		while(i < len(array)):
+			j = i
+			while(j > 0 and array[j - 1] > array[j]):
+				aux = array[j]
+				array[j] = array[j - 1]
+				array[j - 1] = aux
+				j = j - 1
+			i = i + 1
+		return array
+
 
 sort = sorter()
 
 randomArray = list(np.random.randint(100, size= 10))
 
-print(sort.bouble(randomArray, order = -1, plot = False))
+# print("Bouble:")
+# print(sort.bouble(randomArray, order = -1, plot = False))
+
+
+# timeit experiments:
+
+s = '''
+sort = sorter()
+
+randomArray = list(np.random.randint(100, size= 10))
+
+print("Bouble:")
+sort.bouble(randomArray, order = -1, plot = False)
+'''
+
+print(timeit.timeit(stmt=s, globals=globals(), number = 1))
