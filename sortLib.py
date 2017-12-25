@@ -19,6 +19,11 @@ class sorter():
 		else:
 			return x < y
 
+	def swapElements(array, index1, index2):
+		aux = array[index1]
+		array[index1] = array[index2]
+		array[index2] = aux
+
 	def bouble(self, array, order = 1, plot = False):
 		logging.info("given array:")
 		logging.info(array)
@@ -28,9 +33,7 @@ class sorter():
 		for loop in range(1, len(array)):
 			for iterator in range(0, len(array) - loop):
 				if(sorter.boubleCompare(array[iterator], array[iterator + 1], order)):
-					aux = array[iterator]
-					array[iterator] = array[iterator + 1]
-					array[iterator + 1] = aux
+					sorter.swapElements(array, iterator, iterator + 1)
 					if(plot):
 						self.ax.clear()
 						self.ax.bar([i for i in range(1, len(array) + 1)], array, self.width)
@@ -39,19 +42,17 @@ class sorter():
 		return array
 
 	def insertion(self, array, order = 1, plot = True):
-		i = 1
-		while(i < len(array)):
-			j = i
-			while(j > 0 and array[j - 1] > array[j]):
-				aux = array[j]
-				array[j] = array[j - 1]
-				array[j - 1] = aux
-				j = j - 1
+		elementIndex = 1
+		while(elementIndex < len(array)):
+			insertedElemntIndex = elementIndex
+			while(insertedElemntIndex > 0 and array[insertedElemntIndex - 1] > array[insertedElemntIndex]):
+				sorter.swapElements(array, insertedElemntIndex, insertedElemntIndex - 1)
+				insertedElemntIndex = insertedElemntIndex - 1
 				if(plot):
 					self.ax.clear()
 					self.ax.bar([i for i in range(1, len(array) + 1)], array, self.width)
 					plt.pause(0.01 / len(array))
-			i = i + 1
+			elementIndex = elementIndex + 1
 		return array
 
 
@@ -68,9 +69,9 @@ insertionArray = randomArray.copy()
 print("Insertion:")
 print(sort.insertion(randomArray))
 
-
+# -------------------
 # timeit experiments:
-
+# -------------------
 s = '''
 sort = sorter()
 
