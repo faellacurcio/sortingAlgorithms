@@ -1,1 +1,4 @@
 # sortingAlgorithms
+
+dependencies: 
+matplotlib
