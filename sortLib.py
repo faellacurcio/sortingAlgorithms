@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import logging
 import numpy as np
-import random
+# import random
 # import timeit
 
 
@@ -89,9 +89,9 @@ class sorter():
 
 	def quickSort(self, array, order = 1, plot = False):
 		result = []
-		print(array)
+		# print(array)
 		if len(array) > 1:
-			pivot = array.pop(array.index(random.choice(array)))
+			pivot = array.pop(len(array) - 1)
 			print("pivot", pivot)
 			partition = [[], []]
 			for element in array:
@@ -99,13 +99,45 @@ class sorter():
 					partition[0].append(element)
 				else:
 					partition[1].append(element)
-			result.extend(sorter.quickSort(self, partition[0]))
-			result.extend(sorter.quickSort(self, partition[1]))
-			# print(result)
-			print("final")
-			return result
+			print("partition", partition)
+			result = [sorter.quickSort(self, partition[0]) + result]
+			result = result + sorter.quickSort(self, partition[1])
+			print("result", result)
+			return [pivot]
 		else:
+			return [array]
+
+	def mergeSort(self, array, order = 1, plot = False):
+		if (len(array) <= 1):
 			return array
+
+		left = []
+		right = []
+
+		for index, element in enumerate(array):
+			if (index < (len(array) / 2)):
+				left.append(element)
+			else:
+				right.append(element)
+
+		left = sorter.mergeSort(self, left)
+		right = sorter.mergeSort(self, right)
+
+		return sorter.merge(left, right)
+
+	def merge(left, right):
+		result = []
+		while(left and right):
+			if (left[0] <= right[0]):
+				result.append(left.pop(0))
+			else:
+				result.append(right.pop(0))
+		while(left):
+			result.append(left.pop(0))
+		while(right):
+			result.append(right.pop(0))
+
+		return result
 
 
 sort = sorter()
@@ -118,7 +150,7 @@ print("----------------")
 boubleArray = randomArray.copy()
 insertionArray = randomArray.copy()
 selectionArray = randomArray.copy()
-quickSortArray = randomArray
+MergeSortArray = randomArray.copy()
 
 print("Bouble:")
 print(sort.bouble(boubleArray, order = -1, plot = False))
@@ -129,8 +161,8 @@ print(sort.insertion(randomArray, order = 1, plot = False))
 print("Selection:")
 print(sort.selection(selectionArray, order = 1, plot = False))
 
-print("Quick:")
-print(sort.quickSort(quickSortArray, order = 1, plot = False))
+print("Merge:")
+print(sort.mergeSort(MergeSortArray, order = 1, plot = False))
 
 
 # -------------------
