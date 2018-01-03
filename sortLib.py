@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import logging
 import numpy as np
+import random
 # import timeit
 
 
@@ -49,7 +50,7 @@ class sorter():
 		logging.info(array)
 		return array
 
-	def insertion(self, array, order = 1, plot = True):
+	def insertion(self, array, order = 1, plot = False):
 		logging.info("given array:")
 		logging.info(array)
 		if(order not in [1, -1]):
@@ -70,7 +71,7 @@ class sorter():
 		logging.info(array)
 		return array
 
-	def selection(self, array, order = 1, plot = True):
+	def selection(self, array, order = 1, plot = False):
 		# for i in range(len(array)):
 		for j in range(len(array)):
 			sorter.swapElements(
@@ -86,6 +87,26 @@ class sorter():
 
 		return array
 
+	def quickSort(self, array, order = 1, plot = False):
+		result = []
+		print(array)
+		if len(array) > 1:
+			pivot = array.pop(array.index(random.choice(array)))
+			print("pivot", pivot)
+			partition = [[], []]
+			for element in array:
+				if(element < pivot):
+					partition[0].append(element)
+				else:
+					partition[1].append(element)
+			result.extend(sorter.quickSort(self, partition[0]))
+			result.extend(sorter.quickSort(self, partition[1]))
+			# print(result)
+			print("final")
+			return result
+		else:
+			return array
+
 
 sort = sorter()
 
@@ -97,6 +118,7 @@ print("----------------")
 boubleArray = randomArray.copy()
 insertionArray = randomArray.copy()
 selectionArray = randomArray.copy()
+quickSortArray = randomArray
 
 print("Bouble:")
 print(sort.bouble(boubleArray, order = -1, plot = False))
@@ -104,8 +126,12 @@ print(sort.bouble(boubleArray, order = -1, plot = False))
 print("Insertion:")
 print(sort.insertion(randomArray, order = 1, plot = False))
 
-print("Insertion:")
-print(sort.selection(selectionArray, order = 1, plot = True))
+print("Selection:")
+print(sort.selection(selectionArray, order = 1, plot = False))
+
+print("Quick:")
+print(sort.quickSort(quickSortArray, order = 1, plot = False))
+
 
 # -------------------
 # timeit experiments:
