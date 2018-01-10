@@ -139,6 +139,22 @@ class sorter():
 
 		return result
 
+	def gnomeSort(self, array, order = 1, plot = False):
+		position = 0
+		while (position < len(array)):
+			if(position == 0 or array[position] >= array[position - 1]):
+				position += 1
+			else:
+				sorter.swapElements(array, position, position - 1)
+				position -= 1
+
+			if(plot):
+					self.ax.clear()
+					self.ax.bar([i for i in range(1, len(array) + 1)], array, self.width)
+					plt.pause(0.01 / len(array))
+
+		return array
+
 
 sort = sorter()
 
@@ -151,18 +167,22 @@ boubleArray = randomArray.copy()
 insertionArray = randomArray.copy()
 selectionArray = randomArray.copy()
 MergeSortArray = randomArray.copy()
+GnomeSortArray = randomArray.copy()
 
-print("Bouble:")
-print(sort.bouble(boubleArray, order = -1, plot = False))
+# print("Bouble:")
+# print(sort.bouble(boubleArray, order = -1, plot = False))
 
-print("Insertion:")
-print(sort.insertion(randomArray, order = 1, plot = False))
+# print("Insertion:")
+# print(sort.insertion(randomArray, order = 1, plot = False))
 
-print("Selection:")
-print(sort.selection(selectionArray, order = 1, plot = False))
+# print("Selection:")
+# print(sort.selection(selectionArray, order = 1, plot = False))
 
-print("Merge:")
-print(sort.mergeSort(MergeSortArray, order = 1, plot = False))
+# print("Merge:")
+# print(sort.mergeSort(MergeSortArray, order = 1, plot = False))
+
+print("Gnome:")
+print(sort.gnomeSort(GnomeSortArray, order = 1, plot = True))
 
 
 # -------------------
